@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formular Baie Camin</title>
+    <style>
+        /* Stilizare CSS pentru formular */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        input, select, button {
+            margin: 10px 0;
+        }
+
+        /* Stilizare CSS pentru tabel */
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Formular Baie Camin</h1>
+    <form id="camin-form">
+        <label for="nume">Nume:</label>
+        <input type="text" id="nume" name="nume" required><br>
+        <label for="camera">Camera:</label>
+        <input type="text" id="camera" name="camera" required><br>
+        <label for="ora">Ora:</label>
+        <input type="time" id="ora" name="ora" required><br>
+        <button type="submit">Trimite</button>
+    </form>
+    <h2>Ore de Pauză</h2>
+    <p>Selectează orele de pauză:</p>
+    <select id="ora-pauza-1" name="ora-pauza-1">
+        <option value="16:30-17:00">15:30 - 17:00</option>
+        <option value="18:30-19:00">18:30 - 19:00</option>
+    </select>
+    
+    <select id="ora-pauza-2" name="ora-pauza-2">
+        <option value="17:30-18:00">17:00 - 18:00</option>
+        <option value="19:30-20:00">19:30 - 20:00</option>
+    </select>
+
+    <!-- Tabel pentru afișarea datelor -->
+    <table>
+        <thead>
+            <tr>
+                <th>Ora</th>
+                <th>Nume</th>
+                <th>Camera</th>
+                <th>Ora Pauza</th>
+            </tr>
+        </thead>
+        <tbody id="camin-data">
+            <!-- Aici vor apărea datele introduse anterior -->
+        </tbody>
+    </table>
+
+    <script>
+        // JavaScript pentru ștergerea automată a numelor după trecerea orei
+        document.getElementById("camin-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const numeInput = document.getElementById("nume");
+            const cameraInput = document.getElementById("camera");
+            const oraInput = document.getElementById("ora");
+            const oraPauzaInput = document.getElementById("ora-pauza");
+            const caminData = document.getElementById("camin-data");
+
+            // Verificăm dacă ora curentă este mai mare decât ora din formular
+            const oraCurenta = new Date();
+            const oraIntrodusa = new Date(oraInput.value);
+
+            // Verificăm dacă ora este cu cel puțin 10 minute înainte de ora curentă
+            oraCurenta.setMinutes(oraCurenta.getMinutes() + 10);
+
+            if (oraCurenta > oraIntrodusa) {
+                alert("Ora este ocupată sau trebuie introdusă cu cel puțin 10 minute înainte.");
+            } else {
+                // Adăugăm datele în tabel
+                const newRow = caminData.insertRow();
+                const oraCell = newRow.insertCell(0);
+                const numeCell = newRow.insertCell(1);
+                const cameraCell = newRow.insertCell(2);
+                const oraPauzaCell = newRow.insertCell(3);
+                oraCell.innerHTML = oraInput.value;
+                numeCell.innerHTML = numeInput.value;
+                cameraCell.innerHTML = cameraInput.value;
+                oraPauzaCell.innerHTML = oraPauzaInput.value;
+            }
+            // Resetăm valorile din formular
+            numeInput.value = "";
+            cameraInput.value = "";
+            oraInput.value = "";
+        });
+    </script>
+</body>
+</html>
